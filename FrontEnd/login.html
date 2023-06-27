@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<title>Login</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	<meta name="description" content="">
+	<link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+<header>
+	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+	<nav>
+		<ul>
+			<li>projets</li>
+			<li>contact</li>
+			<li>login</li>
+			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+		</ul>
+	</nav>
+</header>
+<main>
+    <section id="login">
+        <h3>Log In</h3>
+		<!-- TODO the form needs to be a `<form>` tag with a button or an input of type submit -->
+		<!-- TODO fix display of labels by setting the width of `.input` divs + `align-self: start;` on the label + centering the elements of `.input_zone` -->
+        <!-- TODO above the button, add a div with visibility hidden that will host the error message -->
+		<!-- TODO test the display of the error message (red color preferably) -->
+		<!-- TODO write the Javascript code that will display the error message based on a condition -->
+		<div class="input_zone">
+            <div class="input">
+             <label> <p> E-mail </p></label>
+             <input type="email" id="emailInput">
+            </div>
+            <div class="input">
+             <label> <p> Mot de passe </p></label>
+             <input type="password" id="passwordInput">
+            </div>
+        </div>
+        <div class="btn">
+            <button> Se connecter </button> 
+            <p> Mot de passe oublié </p>
+        </div>
+    </section>
+</main>
+<footer>
+	<nav>
+		<ul>
+			<li>Mentions Légales</li>
+		</ul>
+	</nav>
+</footer>
+<script src="login.js"></script>
+</body>
+</html>
