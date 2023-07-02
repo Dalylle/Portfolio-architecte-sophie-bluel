@@ -199,20 +199,25 @@ h3 {
 .input_zone {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	padding-top: 60px;
 }
 .input{
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	
+	width: 33%;
+	margin-bottom: 30px;
 }
 input{
 	background: #FFFFFF;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	width: 379px;
 	height: 51px;
-
+}
+.error {
+	color: red;
+	margin-top : 10px;
+	visibility: hidden;
 }
 label > p {
 	font-family: 'Work Sans';
@@ -223,6 +228,7 @@ label > p {
 
 color: #3D3D3D;
 }
+
 .btn{
 	display: flex;
 	flex-direction: column;

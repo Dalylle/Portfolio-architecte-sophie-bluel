@@ -18,25 +18,16 @@ window.addEventListener("load", async () => {
             });
             if (loginAPICall.status == 404) {
                 // TODO display client error message
+                const errorMessage = document.querySelector(".error");
+                errorMessage.style.visibility = "visible";
+                
             } else {
                 const loginResponse = await loginAPICall.json();
                 // TODO rest of the login feature ...
+
             }
         } catch (error) {
             // TODO display server error message in the DOM here
         }
     });
 });
-
-//  const loginRequest = async () => {
-//     try {
-    const response = await fetch(url, );
-
-//      const dataResponse = await response.json ();
-  
-//  .then ((response) => response.json())
-//  .then((data) => {
-// console.log(data)
-//  })
-
-  

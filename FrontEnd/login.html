@@ -30,20 +30,22 @@
         <!-- TODO above the button, add a div with visibility hidden that will host the error message -->
 		<!-- TODO test the display of the error message (red color preferably) -->
 		<!-- TODO write the Javascript code that will display the error message based on a condition -->
-		<div class="input_zone">
+		<form  id= "loginForm" class="input_zone">
             <div class="input">
-             <label> <p> E-mail </p></label>
-             <input type="email" id="emailInput">
+             	<label> <p> E-mail </p></label>
+             	<input type="email" id="emailInput" required>
+				 <p class="error"> Erreur dans l’identifiant ou le mot de passe </p>
             </div>
-            <div class="input">
-             <label> <p> Mot de passe </p></label>
-             <input type="password" id="passwordInput">
+			<div class="input">
+             	<label> <p> Mot de passe </p></label>
+             	<input type="password" id="passwordInput" required>
+				 <p class="error"> Erreur dans l’identifiant ou le mot de passe </p>
             </div>
         </div>
         <div class="btn">
-            <button> Se connecter </button> 
+            <button type="submit"> Se connecter </button> 
             <p> Mot de passe oublié </p>
-        </div>
+		</form>
     </section>
 </main>
 <footer>
