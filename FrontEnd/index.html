@@ -8,15 +8,36 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
+	<script src="https://kit.fontawesome.com/2ca84574fd.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="./assets/modal.css">
 <body>
 <header>
+	<div class="overlay"></div>
+	<div class="modal_header">
+		<p> <i class="fa-regular fa-pen-to-square"></i> Mode édition </p>
+        <p class="publish"> publier les changements </p>
+	</div>
+	<div class="modal">
+		<div class="end">
+			<span><i class="fa-solid fa-xmark "></i></span>
+		</div>
+		<div class="modal-container">
+			<h3 class="modal-title">Galerie photo</h3>
+			<div class="modal-img">
+			</div>
+			<div class="add_delete">
+				<p class="modal-btn">Ajouter une photo</p>
+				<p class="red">Supprimer la galerie</p>
+		</div>
+	</div>
+	</div>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li>login</li>
+			<li><a href="login.html" id="login_logout">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -25,6 +46,7 @@
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
+			<i class="fa-regular fa-pen-to-square"></i>modifier</a>
 		</figure>
 		<article>
 			<h2>Designer d'espace</h2>
@@ -34,13 +56,16 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div class="modal-position">
+			<h2>Mes Projets</h2>
+				<button class="modal-button">
+					<i class="fa-regular fa-pen-to-square"></i>
+					<p id="modalSetting">modifier</p>
+				</button>
+		</div>
+		<div class="categories">
+		</div>
 		<div class="gallery">
-			<!-- TODO add img and figcaption dynamically with `el.appendChild(child)` -->
-			<!-- <figure>
-				<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
-				<figcaption>Abajour Tahina</figcaption>
-			</figure> -->
 		</div>
 	</section>
 	<section id="contact">
@@ -67,5 +92,7 @@
 </footer>
 
 <script src="galerie.js"></script>
+<script src="modal.js"></script>
+<script src="admin.js"></script>
 </body>
 </html>

@@ -17,7 +17,7 @@
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li>login</li>
+			<li id="login_logout">login</li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -25,11 +25,6 @@
 <main>
     <section id="login">
         <h3>Log In</h3>
-		<!-- TODO the form needs to be a `<form>` tag with a button or an input of type submit -->
-		<!-- TODO fix display of labels by setting the width of `.input` divs + `align-self: start;` on the label + centering the elements of `.input_zone` -->
-        <!-- TODO above the button, add a div with visibility hidden that will host the error message -->
-		<!-- TODO test the display of the error message (red color preferably) -->
-		<!-- TODO write the Javascript code that will display the error message based on a condition -->
 		<form  id= "loginForm" class="input_zone">
             <div class="input">
              	<label> <p> E-mail </p></label>
@@ -41,10 +36,10 @@
              	<input type="password" id="passwordInput" required>
 				 <p class="error"> Erreur dans l’identifiant ou le mot de passe </p>
             </div>
-        </div>
         <div class="btn">
             <button type="submit"> Se connecter </button> 
             <p> Mot de passe oublié </p>
+		</div>
 		</form>
     </section>
 </main>
