@@ -18,22 +18,28 @@
 
      console.log(modalBtn)
      
+     // Paramétrage de l'affichage de la modal au clique sur le bouton modifier //
      modalBtn.addEventListener("click", (e) => {
         e.preventDefault()
         modal.style.visibility = "visible"; 
         overlay.style.visibility = "visible";
 
     
-
+    // Paramétrage de la fermeture de la modal au click sur le bouton et au click sur l'overlay // 
     const modalClose = document.getElementById("modalClose");
         console.log(modalClose)
     
     modalClose.addEventListener("click", (e) => {
         e.preventDefault()
-        console.log("click close")
         modal.style.visibility = "hidden"; 
         overlay.style.visibility = "hidden";
 
+    overlay.addEventListener("click", (e) => {
+        e.preventDefault()
+        console.log("clik close overlay")
+        modal.style.visibility = "hidden"; 
+        overlay.style.visibility = "hidden";
+     })
+     })
     })
- })
 })
