@@ -1,142 +1,184 @@
-function handleModals() {
-    const modalsWrapper = document.querySelectorAll(".modal--wrapper");
+  // Mettre à jour la gallery
+  function updateModalGallery() {
+    const modalWrapper = document.querySelector(".modal--wrapper");
+    const modalGallery = modalWrapper.querySelector(".modal-gallery");
+    modalGallery.innerHTML = "";
+    window.worksData.forEach((work) => {
+      const figure = document.createElement("figure");
+      const image = document.createElement("img");
+      const edit = document.createElement("p");
+      const deleteIcon = document.createElement("i");
+      deleteIcon.classList = "fa-regular fa-trash-can";
 
-    modalsWrapper.forEach(modalWrapper => {
-        const id = modalWrapper.getAttribute('data-modal-id');
-        const modal = modalWrapper.querySelector('.modal');
-        const openBtn = document.querySelectorAll(`.modal-open-btn[data-modal-id="${id}"]`);
-        const closeBtn = modalWrapper.querySelector('.modal-close');
-        const overlay = modalWrapper.querySelector(".overlay");
+      image.src = work.imageUrl;
 
-        // open modal
-        openBtn.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                modal.style.visibility = "visible";
-                overlay.style.visibility = "visible";
-                // je demande a ouvrir la modal gallery
-                const event = new CustomEvent('modal:'+id+':open'); // modal:gallery:open
-                window.dispatchEvent(event);
-            });
-        });
+      edit.innerText = "éditer";
+      figure.appendChild(image);
+      figure.appendChild(deleteIcon);
+      figure.appendChild(edit);
+      figure.setAttribute("category", work.categoryId);
+      
+      modalGallery.appendChild(figure);
 
-        // Close modal
-        closeBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            modal.style.visibility = "hidden";
-            overlay.style.visibility = "hidden";
-            const event = new CustomEvent('modal:'+id+':close');
-            window.dispatchEvent(event);
-        });
-
-        // overlay modal
-        overlay.addEventListener('click', (e) => {
-            e.preventDefault();
-            console.log("clik close overlay");
-            modal.style.visibility = "hidden";
-            overlay.style.visibility = "hidden";
-            const event = new CustomEvent('modal:'+id+':close');
-            window.dispatchEvent(event);
-        });
-
-        // Steps
-        const btnsStep = modalWrapper.querySelectorAll('.modal-btn-step');
-        btnsStep.forEach(btnStep => {
-            btnStep.addEventListener('click', () => {
-                const stepId = btnStep.getAttribute('data-step');
-                modalWrapper.querySelectorAll('.step').forEach(step => {
-                    step.style.display = 'none';
-                });
-                modalWrapper.querySelector(`.step[data-step="${stepId}"`).style.display = 'block';
-                const event = new CustomEvent('modal:'+id+':step:'+stepId);
-                window.dispatchEvent(event);
-            });
-        });
+      // Paramétrage de la suppresion de travaux via l'icone poubelle 
+      deleteIcon.addEventListener("click", async () => {
+        // console.log(work);
+        // call the API to delete the work
+        try {
+          // console.log("TOKEN", localStorage.getItem("token"));
+          const response = await fetch(
+            `http://localhost:5678/api/works/${work.id}`,
+            {
+              method: "delete",
+              headers: new Headers([
+                ["Authorization", `Bearer ${localStorage.getItem("token")}`],
+              ]),
+            }
+          );
+          if (response.ok) {
+            window.worksData = window.worksData.filter((w) => w.id !== work.id);
+            // appel au fonction pour mettre à jour les gallery
+            window.updateGallery(window.worksData);
+          } else {
+            console.log("ERR", data);
+          }
+        } catch (error) {
+          console.log("ERR", error);
+        }
     });
+  });
 }
 
-/**
- * Permet de gérer les modals
- */
-window.addEventListener("load", () => {
-    handleModals();
-});
+function modalGallery() {
+  const modalWrapper = document.querySelector(".modal--wrapper");
+  const modalGallery = modalWrapper.querySelector(".modal-gallery");
+  modalGallery.innerHTML = "";
 
-/**
- * Gestionnaire de la modal gallery
- */
+
+  updateModalGallery();
+
+  // Mettre à jour les catégories dans l'onglet déroulant 
+  const selectCategorie = modalWrapper.querySelector("#categories");
+  console.log(window.categories, selectCategorie);
+  selectCategorie.innerText = "";
+  // Création de l'onglet déroulant 
+  const option = document.createElement("option");
+  option.innerText = "...";
+  option.label = "Sélectionner une catégorie";
+  selectCategorie.appendChild(option);
+  // importer les catégories de l'API dans le choix de l'onglet déroulant 
+  window.categories.forEach((categorie) => {
+    const option = document.createElement("option");
+    option.value = categorie.id;
+    option.innerText = categorie.name;
+    selectCategorie.appendChild(option);
+  });
+}
+
+  // Ajout de travaux (proposition Bing )
+async function addWork(e) {
+  e.preventDefault();
+  const formData = new FormData(addWorkValid); 
+
+  const response = await fetch(
+    `http://localhost:5678/api/works`,
+    {
+      method: "POST",
+      headers: new Headers([
+        ["Authorization", `Bearer ${localStorage.getItem("token")}`],
+      ]),
+      body: formData
+    }
+  );
+
+  if (response.ok) {
+    console.log('added')
+  }
+}
+
 window.addEventListener("load", async () => {
-    // j'attend que la modal s'ouvre
-    window.addEventListener('modal:gallery:open', () => {
-        const modalWrapper = document.querySelector(".modal--wrapper[data-modal-id='gallery']");
-        const modalGallery = modalWrapper.querySelector('.modal-gallery');
-        modalGallery.innerHTML = "";
 
-        // Fill gallery
-        function updateGallery() {
-            modalGallery.innerHTML = '';
-            window.worksData.forEach((work) => {
-                const figure = document.createElement("figure"); 
-                const image = document.createElement("img"); 
-                const edit = document.createElement("p");
-                const deleteIcon = document.createElement("i");
-                
-                image.src = work.imageUrl; 
-    
-                // TODO create the `i` tag with Javascript as well
-                deleteIcon.classList = "fa-regular fa-trash-can"
-                edit.innerText = "éditer";
-                figure.appendChild(image); 
-                figure.appendChild(deleteIcon);
-                figure.appendChild(edit);
-                figure.setAttribute("category", work.categoryId);
-                // Ajouter les boutons
-                // et ajouter les event click
-                modalGallery.appendChild(figure);
-    
-                // TODO add an event listener on the delete button that just console logs the id of the work to delete
-                deleteIcon.addEventListener("click", async () => {
-                    console.log(work);
-                    // TODO call the API to delete the work
-                    try {
-                        const response = await fetch(`http://localhost:5678/api/works/${work.id}`, {
-                            method: 'delete',
-                            headers: new Headers([
-                                ['Authorization', `Bearer ${localStorage.getItem('token')}`]
-                            ])
-                        });
-                        if (response.ok) {
-                            console.log('OK', response);
-                            // TODO refresh the gallery when the work is deleted (in the modal and on the homepage)
-                            window.worksData = window.worksData.filter(w => w.id !== work.id);
-                            const event = new CustomEvent('update:gallery');
-                            window.dispatchEvent(event);
-                        } else {
-                            console.log('ERR', data);
-                        }
-                    } catch (error) {
-                        console.log('ERR', error);
-                    }
-                });
-            });
-        }
-        
-        updateGallery();
-
-        window.addEventListener("update:gallery", () => {
-            updateGallery();
-        });
-
-        // TODO `Homepage_edit_3` fill the categories input with the categories from the API
-        const selectCategorie = modalWrapper.querySelector("#categories");
-        console.log(window.categories, selectCategorie);
-        // selectCategorie ajouter les options
-        window.categories.forEach((categorie) => {
-            // <option value="<id>">[name]</option> . append dans selectCategorie
-            const option = document.createElement("option");
-            option.value = categorie.id;
-            option.innerText = categorie.name; 
-            selectCategorie.appendChild(option);
-        });
-    })
+  // Récuperation des éléments du DOM
+  const modal = document.querySelector(".modal");
+  const overlay = document.querySelector(".overlay");
+  const openBtn = document.querySelector(".modal-open-btn");
+  const closeBtn = document.querySelector(".modal-close");
+  const BtnStep = document.querySelector(".modal-btn-step");
+  const modalStep1 = document.querySelector(".step-1");
+  const modalStep2 = document.querySelector(".step-2");
+  const modalBack = modal.querySelector(".fa-arrow-left");
+  const addWorkValid = document.getElementById("valid"); 
+  const addWorkValid1 = document.getElementById("valid"); 
+  
+  // define event listeners
+  // Ouverture de la modale 
+  openBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    modal.style.visibility = "visible";
+    overlay.style.visibility = "visible";
+    modalGallery();
+  });
+  // Fermeture de la modale via le bouton 
+  closeBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    modal.style.visibility = "hidden";
+    overlay.style.visibility = "hidden";
+  })
+  // Fermeture de la modale via le click dans l'overlay 
+  overlay.addEventListener("click", (e) => {
+    e.preventDefault();
+    modal.style.visibility = "hidden";
+    overlay.style.visibility = "hidden";
+  })
+  // Ouverture de la page 2 de la modale 
+  BtnStep.addEventListener("click", (e) => {
+    e.preventDefault();
+    modalStep1.style.display = "none";
+    modalStep2.style.display = "block";
+  })
+  // Retour à la page 1 de la modale via la flèche 
+  modalBack.addEventListener("click", (e) => {
+    e.preventDefault();
+    modalStep1.style.display = "block";
+    modalStep2.style.display = "none";
+  })
+  addWorkValid.addEventListener("submit", addWork);
+  addWorkValid1.addEventListener("submit", async (e) => {
+    e.preventDefault();
+  
+    const fileInput = document.getElementById("imageFile");
+    const file = fileInput.files[0];
+  
+    if (!file) {
+      alert ("Veuillez selectionner une image.");
+      return
+    }
+  
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4";
+    const formData = new FormData ();
+    formData.append('imageFile', file);
+  
+    try {
+      const response = await fetch ("http://localhost:5678/api/works",{
+      method : 'POST',
+      headers : {
+        'Authorization': `Bearer${token}`,
+      },
+      body : formData,
+    });
+    if (response.ok) {
+      alert('Image envoyée avec succès.');
+    } else {
+      alert('Une erreur est survenue lors de l\'envoi de l\'image.');
+    }
+    } catch (error) {
+    alert('Une erreur est survenue lors de l\'envoi de l\'image.');
+    console.error(error);
+    }
+  });
+  
 });
+
+
+
+
