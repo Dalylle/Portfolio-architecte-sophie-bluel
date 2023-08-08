@@ -38,6 +38,7 @@
           if (response.ok) {
             window.worksData = window.worksData.filter((w) => w.id !== work.id);
             // appel au fonction pour mettre à jour les gallery
+            updateModalGallery();
             window.updateGallery(window.worksData);
           } else {
             console.log("ERR", data);
@@ -75,27 +76,6 @@ function modalGallery() {
   });
 }
 
-  // Ajout de travaux (proposition Bing )
-async function addWork(e) {
-  e.preventDefault();
-  const formData = new FormData(addWorkValid); 
-
-  const response = await fetch(
-    `http://localhost:5678/api/works`,
-    {
-      method: "POST",
-      headers: new Headers([
-        ["Authorization", `Bearer ${localStorage.getItem("token")}`],
-      ]),
-      body: formData
-    }
-  );
-
-  if (response.ok) {
-    console.log('added')
-  }
-}
-
 window.addEventListener("load", async () => {
 
   // Récuperation des éléments du DOM
@@ -107,8 +87,7 @@ window.addEventListener("load", async () => {
   const modalStep1 = document.querySelector(".step-1");
   const modalStep2 = document.querySelector(".step-2");
   const modalBack = modal.querySelector(".fa-arrow-left");
-  const addWorkValid = document.getElementById("valid"); 
-  const addWorkValid1 = document.getElementById("valid"); 
+  const addWorkValid = document.getElementById("form-add-work"); 
   
   // define event listeners
   // Ouverture de la modale 
@@ -135,50 +114,108 @@ window.addEventListener("load", async () => {
     e.preventDefault();
     modalStep1.style.display = "none";
     modalStep2.style.display = "block";
+    resetForm();
   })
   // Retour à la page 1 de la modale via la flèche 
   modalBack.addEventListener("click", (e) => {
     e.preventDefault();
+    backToStep1();
+  });
+
+  function backToStep1() {
     modalStep1.style.display = "block";
     modalStep2.style.display = "none";
-  })
-  addWorkValid.addEventListener("submit", addWork);
-  addWorkValid1.addEventListener("submit", async (e) => {
+  }
+
+  // Upload step
+  const imageFile = document.getElementById("imageFile");
+  const labelUploadImage = document.querySelector(".modal_add_photo_container label");
+  const pUploadImage = document.querySelector(".modal_add_photo_container p");
+  
+
+  
+  imageFile.addEventListener("change", previewFile);
+  const previewImageFile = document.getElementById('previewImageFile');
+  
+  let selectedImageFile = null;
+    
+  function previewFile(e) {
+    console.log('previewFile', e);
+  
+    selectedImageFile = null;
+    previewImageFile.src = 'assets/images/Group.png';
+  
+    if (imageFile.files && imageFile.files.length) {
+      selectedImageFile = imageFile.files[0];
+  
+      if (selectedImageFile) {
+        previewImageFile.src = URL.createObjectURL(selectedImageFile);
+        labelUploadImage.style.display = "none";
+        pUploadImage.style.display = "none";
+      }
+    } else {
+      labelUploadImage.removeAttribute('style');
+      pUploadImage.removeAttribute('style');
+    }
+  }
+
+  const formInputTitle = addWorkValid.querySelector('#name');
+  const formInputCategory = addWorkValid.querySelector('#categories');
+  const formInputImage = addWorkValid.querySelector('#imageFile');
+  const btnValid = addWorkValid.querySelector("#valid");
+
+  function resetForm() {
+    addWorkValid.reset();
+    previewFile();
+  }
+
+  function onChange(e) {
+    console.log(formInputTitle.value, formInputCategory.value, formInputImage.value);
+
+    if (formInputTitle.value && formInputCategory.value !== '...' && formInputImage.value) {
+      btnValid.removeAttribute('disabled');
+    } else {
+      btnValid.setAttribute('disabled', '');
+    }
+  }
+
+  addWorkValid.addEventListener('keyup', onChange);
+  addWorkValid.addEventListener('change', onChange);
+  
+  
+  // Paramétrage du bouton pour valider l'ajout de travaux 
+  addWorkValid.addEventListener("submit", async (e) => {
     e.preventDefault();
   
-    const fileInput = document.getElementById("imageFile");
-    const file = fileInput.files[0];
-  
-    if (!file) {
+    if (!selectedImageFile) {
       alert ("Veuillez selectionner une image.");
       return
     }
   
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4";
-    const formData = new FormData ();
-    formData.append('imageFile', file);
+    const formData = new FormData(addWorkValid);
+    // formData.append('image', selectedImageFile);
   
     try {
-      const response = await fetch ("http://localhost:5678/api/works",{
+      const response = await fetch ("http://localhost:5678/api/works", {
       method : 'POST',
       headers : {
-        'Authorization': `Bearer${token}`,
+        'Authorization': `Bearer ${localStorage.getItem("token")}`,
       },
       body : formData,
     });
     if (response.ok) {
-      alert('Image envoyée avec succès.');
+      worksData = await response.json();
+      window.worksData.push(worksData); // Ajout du nouveau projet
+      // appel au fonction pour mettre à jour les gallery
+      updateModalGallery();
+      window.updateGallery(window.worksData); 
+      // Return to step 1
+      backToStep1();
     } else {
-      alert('Une erreur est survenue lors de l\'envoi de l\'image.');
+      console.error('Une erreur est survenue lors de l\'envoi de l\'image.');
     }
     } catch (error) {
-    alert('Une erreur est survenue lors de l\'envoi de l\'image.');
-    console.error(error);
+      console.error(error);
     }
   });
-  
 });
-
-
-
-
