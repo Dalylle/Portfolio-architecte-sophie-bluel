@@ -40,25 +40,30 @@
 					<div class="step step-2" data-step="2" style="display: none;">
 						<i class="fa-solid fa-arrow-left  modal-btn-step" data-step="1"></i>
 						<h3>Ajout photo</h3>
-						<form action="POST" method="post" id="Valider">
+						<form method="post" id="form-add-work">
 							<div class="modal_add_photo_container">
-								<div><i class="fa-regular fa-image previous__icone"></i></div>
-								<label><input type="file" id="imageFile" name="image" for="add_photo" />+ Ajouter
+								<div class="preview"><img id="previewImageFile" src="assets/images/Group.png" alt="" />
+								</div>
+								<label for="add_photo"><input type="file" id="add_photo" name="image" required
+										accept=".png,.jpg,.jpeg" />+ Ajouter
 									photo</label>
 								<p>jpg, png : 4mo max</p>
 							</div>
+							<div class="preview">
+								<img id="previewImageFile" src="#" alt="" />
+							</div>
 							<div class="modal_title_category">
 								<label for="name">Titre</label>
-								<input type="text" name="name" id="name" autocomplete="name"></input>
+								<input type="text" name="title" id="name" autocomplete="name" required></input>
 								<label for="categories"> Catégorie </label>
-								<select id="categories" name="categories">
+								<select id="categories" name="category" required>
 									<option label="Sélectionner une catégorie">...</option>
 								</select>
 							</div>
 							<hr>
 							<div class="valid">
 								<div class="valid-btn">
-									<input type="submit" value="Valider" id="valid" />
+									<input type="submit" value="Valider" id="valid" disabled="true" />
 								</div>
 							</div>
 						</form>
