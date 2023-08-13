@@ -22,8 +22,7 @@
 
       // Paramétrage de la suppresion de travaux via l'icone poubelle 
       deleteIcon.addEventListener("click", async () => {
-        // console.log(work);
-        // call the API to delete the work
+        // appel de l'API pour supprimer un projet 
         try {
           // console.log("TOKEN", localStorage.getItem("token"));
           const response = await fetch(
@@ -36,8 +35,8 @@
             }
           );
           if (response.ok) {
-            window.worksData = window.worksData.filter((w) => w.id !== work.id);
-            // appel au fonction pour mettre à jour les gallery
+            window.worksData = window.worksData.filter((w) => w.id !== work.id); // Filtrer et sortir le projet cliqué 
+            // appel au fonction pour mettre à jour les gallery 
             updateModalGallery();
             window.updateGallery(window.worksData);
           } else {
@@ -60,7 +59,6 @@ function modalGallery() {
 
   // Mettre à jour les catégories dans l'onglet déroulant 
   const selectCategorie = modalWrapper.querySelector("#categories");
-  console.log(window.categories, selectCategorie);
   selectCategorie.innerText = "";
   // Création de l'onglet déroulant 
   const option = document.createElement("option");
@@ -89,7 +87,6 @@ window.addEventListener("load", async () => {
   const modalBack = modal.querySelector(".fa-arrow-left");
   const addWorkValid = document.getElementById("form-add-work"); 
   
-  // define event listeners
   // Ouverture de la modale 
   openBtn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -127,29 +124,28 @@ window.addEventListener("load", async () => {
     modalStep2.style.display = "none";
   }
 
-  // Upload step
-  const imageFile = document.getElementById("imageFile");
+  // Ajout projet
+  const add_photo = document.getElementById("add_photo");
   const labelUploadImage = document.querySelector(".modal_add_photo_container label");
   const pUploadImage = document.querySelector(".modal_add_photo_container p");
   
 
   
-  imageFile.addEventListener("change", previewFile);
-  const previewImageFile = document.getElementById('previewImageFile');
+  add_photo.addEventListener("change", previewFile);
+  const previewImageFileLoaded = document.getElementById('previewImageFile');
   
   let selectedImageFile = null;
     
   function previewFile(e) {
-    console.log('previewFile', e);
-  
+    
     selectedImageFile = null;
     previewImageFile.src = 'assets/images/Group.png';
   
-    if (imageFile.files && imageFile.files.length) {
-      selectedImageFile = imageFile.files[0];
+    if (add_photo.files && add_photo.files.length) {
+      selectedImageFile = add_photo.files[0];
   
       if (selectedImageFile) {
-        previewImageFile.src = URL.createObjectURL(selectedImageFile);
+        previewImageFileLoaded.src = URL.createObjectURL(selectedImageFile);
         labelUploadImage.style.display = "none";
         pUploadImage.style.display = "none";
       }
@@ -161,7 +157,7 @@ window.addEventListener("load", async () => {
 
   const formInputTitle = addWorkValid.querySelector('#name');
   const formInputCategory = addWorkValid.querySelector('#categories');
-  const formInputImage = addWorkValid.querySelector('#imageFile');
+  const formInputImage = addWorkValid.querySelector('#add_photo');
   const btnValid = addWorkValid.querySelector("#valid");
 
   function resetForm() {
@@ -170,7 +166,6 @@ window.addEventListener("load", async () => {
   }
 
   function onChange(e) {
-    console.log(formInputTitle.value, formInputCategory.value, formInputImage.value);
 
     if (formInputTitle.value && formInputCategory.value !== '...' && formInputImage.value) {
       btnValid.removeAttribute('disabled');
