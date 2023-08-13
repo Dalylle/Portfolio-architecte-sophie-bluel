@@ -61,6 +61,12 @@ header {
 section {
 	margin: 50px 0
 }
+.pad-top{
+	display: flex;
+    padding-top: 30px;
+	width: 100%;
+	justify-content: space-between;
+}
 
 h1{
 	display: flex;
@@ -301,6 +307,12 @@ color: #3D3D3D;
         display: flex;
         flex-direction: column;
     }
+	.pad-top{
+		display: flex;
+		padding-top: 30px;
+		width: 100%;
+		flex-direction: column;
+	}
     header h1{
         align-items: center;
     }
