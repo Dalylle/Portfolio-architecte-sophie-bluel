@@ -73,6 +73,10 @@
     margin-right: 5%;
     margin-left: 5%;
 }
+.modal-gallery figure{
+    width: 85px;
+    height: 120px;
+}
 .modal-gallery img{
     height: 90%;
     width: 100%;
@@ -87,8 +91,9 @@
     cursor: pointer;
 }
 hr{
-    width: 75%;
-    margin-top: 30px;
+    width: 60%;
+    margin-top: 43px;
+    margin-bottom: 43px;
     
 }
 .add_delete{
@@ -143,11 +148,17 @@ hr{
     justify-content: center;
     align-items: center;
     width: 60%;
-    height: 170px;
+    padding: 15px 0;
     background-color: #E8F1F6;
     margin-left: 20%;
     margin-right: 20%;
+    margin-top: 30px;
+    margin-bottom: 30px;
 
+}
+.modal_add_photo_container .preview img {
+    max-width: 150px;
+    max-height: 158px;
 }
 .modal_add_photo_container input{
     display: none;
@@ -176,6 +187,7 @@ hr{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 10px;
 }
 .modal_title_category select{
     background: #FFFFFF;
@@ -183,7 +195,7 @@ hr{
     width: 379px;
     height: 51px;
 }
-.valid-btn{
+.valid-btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -196,19 +208,125 @@ hr{
     height: 30px;
     text-align: center;
     border-radius: 60px;
-    
 }
-.valid-btn input{
-    cursor: pointer;
+.valid-btn input:disabled {
+    background-color: grey;
+    cursor: not-allowed;
 }
-.valid{
-    
+.valid {
     padding-bottom: 30px;
 }
 
-/**@media screen and (min-width: 1060px) and (max-width: 1440px) {
-    .modal-gallery figure i {
-        top: 4px;
-        right: 4px;
+/* Media queries */
+
+/* Page d'accueil */ 
+@media screen and (min-width: 320px) and (max-width: 768px) {
+    header {
+        display: flex;
+        flex-direction: column;
     }
-}*/
+    header h1{
+        align-items: center;
+    }
+    nav {
+        display: flex;
+        justify-content: center;
+    }
+    #introduction {
+        display: flex;
+        flex-direction: column;
+        margin : 20px 20px;
+    }
+    #portfolio h2 {
+        margin-bottom: 0;
+    }
+    #portfolio .categories {
+        gap: 5px;
+        margin: 10px 20px;
+    }
+    #portfolio .gallery {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-top: 30px;
+    }
+    #contact input{
+        width : 100%; 
+    }
+
+    /* Modale 1 */
+
+    .publish{
+        width: 50%;
+    }
+
+    .modal--wrapper .end {
+        padding-top: 15px;
+        padding-right: 10px;
+    }
+    .modal-title {
+        font-size: 20px;
+    }
+    hr{
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+    .modal .modal-gallery{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .add_delete .modal-btn {
+        width : 80%;
+    }
+    .add_delete p {
+        margin-top : 5px; 
+        margin-bottom: 30px;
+    }
+
+    /* Modale 2 */
+
+    .modal_add_photo_container{
+        width: 90%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+    .step-2 h3 {
+        padding-top: 25px;
+        display: flex;
+        height: 36px;
+        font-size: 20px;
+    }
+
+    .modal_add_photo_container label{
+        width: 70%;
+    }
+
+    input, .modal_title_category select {
+        width: 90%;
+    }
+}
+@media screen and (min-width: 400px) and (max-width: 600px) {
+    .modal-container .modal-gallery{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        
+    }
+}
+@media screen and (min-width: 601px) and (max-width: 767px) {
+    .modal-container .modal-gallery{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        
+    }
+}
+@media screen and (min-width: 768px) and (max-width: 900px) {
+    .modal-container .modal-gallery{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        
+    }
+}
+
+

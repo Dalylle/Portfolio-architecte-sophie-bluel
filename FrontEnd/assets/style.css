@@ -166,15 +166,17 @@ li:hover {
 	background: #1D6154;
 	color: white;
 }
-.gallery {
-	width: 100%;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+.gallery, .modal-gallery {
+	width: 90%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    margin-right: 5%;
+    margin-left: 5%;
 }
 
-.gallery img {
+.gallery img, .modal-gallery img {
 	width: 100%;
 }
 #contact {
@@ -291,3 +293,36 @@ color: #3D3D3D;
 	padding-bottom: 355px;
 }
 
+
+
+
+@media screen and (min-width: 320px) and (max-width: 768px) {
+    header {
+        display: flex;
+        flex-direction: column;
+    }
+    header h1{
+        align-items: center;
+    }
+    nav {
+        display: flex;
+        justify-content: center;
+    }
+	h3{
+		padding-top: 0;
+	}
+	.input{
+		width: 70%;
+		display: flex;
+		justify-items: center;
+		justify-content: center;
+		margin-bottom: 0;
+	}
+	input {
+		width: 90%;
+	}
+	.btn > p {
+		padding-bottom: 0;
+	}
+
+}
