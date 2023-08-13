@@ -3,7 +3,7 @@ window.addEventListener("load", async () => {
     const token = localStorage.getItem('token');
     const loginLogoutBtn = document.getElementById("login_logout");
 
-    if (token){
+    if (token) {
 
         loginLogoutBtn.innerText ="logout"; // changement de texte si l'utilisateur est connecté 
         loginLogoutBtn.addEventListener("click", (e)=> {
@@ -16,6 +16,5 @@ window.addEventListener("load", async () => {
 
         const modalHeader = document.querySelector(".modal_header");
         modalHeader.style.visibility = "visible"; // Affichage du header de la modale
-        console.log(modalHeader);
     }
 })
