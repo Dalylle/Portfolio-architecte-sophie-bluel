@@ -74,6 +74,11 @@ function modalGallery() {
   });
 }
 
+function backToStep1(modalStep1, modalStep2) {
+  modalStep1.style.display = "block";
+  modalStep2.style.display = "none";
+}
+
 window.addEventListener("load", async () => {
 
   // Récuperation des éléments du DOM
@@ -94,6 +99,7 @@ window.addEventListener("load", async () => {
       modal.style.visibility = "visible";
       overlay.style.visibility = "visible";
       modalGallery();
+
     });
     // Fermeture de la modale via le bouton 
     closeBtn.addEventListener("click", (e) => {
@@ -106,6 +112,7 @@ window.addEventListener("load", async () => {
       e.preventDefault();
       modal.style.visibility = "hidden";
       overlay.style.visibility = "hidden";
+
     })
     // Ouverture de la page 2 de la modale 
     BtnStep.addEventListener("click", (e) => {
@@ -117,13 +124,10 @@ window.addEventListener("load", async () => {
     // Retour à la page 1 de la modale via la flèche 
     modalBack.addEventListener("click", (e) => {
       e.preventDefault();
-      backToStep1();
+      backToStep1(modalStep1, modalStep2);
+
     });
 
-    function backToStep1() {
-      modalStep1.style.display = "block";
-      modalStep2.style.display = "none";
-    }
   })
 
 
@@ -156,6 +160,7 @@ window.addEventListener("load", async () => {
       labelUploadImage.removeAttribute('style');
       pUploadImage.removeAttribute('style');
     }
+
   }
 
   const formInputTitle = addWorkValid.querySelector('#name');
@@ -166,6 +171,7 @@ window.addEventListener("load", async () => {
   function resetForm() {
     addWorkValid.reset();
     previewFile();
+    btnValid.setAttribute('disabled', '');
   }
 
   function onChange(e) {
@@ -208,7 +214,7 @@ window.addEventListener("load", async () => {
         updateModalGallery();
         window.updateGallery(window.worksData);
         // Return to step 1
-        backToStep1();
+        backToStep1(modalStep1, modalStep2);
       } else {
         console.error('Une erreur est survenue lors de l\'envoi de l\'image.');
       }
@@ -216,4 +222,5 @@ window.addEventListener("load", async () => {
       console.error(error);
     }
   });
+
 });
